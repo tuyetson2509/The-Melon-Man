@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8">
     <title> The melon man </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <div class="game">
       <canvas id="canvas"></canvas>
       <div class="mobileControls">
-        <button class="mobileControls__button" onmousedown="game.moveLeft()" ontouchstart="game.moveLeft()" onmouseup="clearInterval(game.player.moveLeftInterval" ontouchend="clearInterval(game.player.moveInterval)">Left</button>
-        <button class="mobileControls__button" onmousedown="game.moveRight()" ontouchstart="game.moveRight()" onmouseup="clearInterval(game.player.moveRightInterval)" ontouchend="clearInterval(game.player.moveInterval)">Right</button>
+        <button class="mobileControls__button" onmousedown="game.moveLeft()" ontouchstart="game.moveLeft()" onmouseup="clearInterval(game.player.moveLeftInterval)" ontouchend="clearInterval(game.player.moveLeftInterval)">Move Left</button>
+        <button class="mobileControls__button" onmousedown="game.moveRight()" ontouchstart="game.moveRight()" onmouseup="clearInterval(game.player.moveRightInterval)" ontouchend="clearInterval(game.player.moveRightInterval)">Move Right</button>
         <button class="mobileControls__button" onmousedown="game.player.jump()" ontouchstart="game.player.jump()">Jump</button>
       </div>
       <p class="counter" id="counter">A game by Karol Swierczek | Controls: W, D / arrows and SPACE | Points: 0</p>
@@ -24,11 +24,21 @@
     <script src="js/collisionDetection.js"></script>
     <script>
       // Event listeners
-      document.addEventListener("keydown", game.keydown.bind(game), false)
-      document.addEventListener("keyup", game.keyup.bind(game), false)
+      document.addEventListener("keydown", function(event) {
+        if (event.key === "ArrowLeft") {
+          game.moveLeft();
+        } else if (event.key === "ArrowRight") {
+          game.moveRight();
+        } else if (event.key === " ") {
+          game.player.jump();  // Gọi phương thức jump khi nhấn phím Space
+        }
+      }, false);
+
+      document.addEventListener("keyup", game.keyup.bind(game), false);
+
       document.body.onresize = function () {
-        game.options.canvasWidth = window.innerWidth / 3,
-        game.options.canvasHeight = window.innerHeight / 3
+        game.options.canvasWidth = window.innerWidth,
+        game.options.canvasHeight = window.innerHeight
         game.canvas.width = game.options.canvasWidth
         game.canvas.height = game.options.canvasHeight
         game.requestRedraw()

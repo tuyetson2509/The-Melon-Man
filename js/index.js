@@ -26,6 +26,7 @@ var game = {
 		canvasHeight: window.innerHeight / 3
 	},
 	pressedKeys: {},
+	score: 0, 
 	init: function (onInit) {
 		this.canvas.width = this.options.canvasWidth
 		this.canvas.height = this.options.canvasHeight
@@ -48,3 +49,10 @@ var game = {
 	},
 	isOver: false
 }
+game.increaseScore = function (points) {
+    this.score += points; 
+    this.counter.textContent = `Points: ${this.score}`;
+};
+game.player.landsOnPlatform = function() {
+    game.increaseScore(10);
+};
